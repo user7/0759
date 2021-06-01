@@ -4,7 +4,11 @@
 
 public class Main {
     public static void main(String[] args) {
-        //напишите тут ваш код
-
+        int a[] = new int[] {2, 3, 4, 5};
+        int p = 1;
+        for (int i = 0; i < a.length; ++i) {
+            p *= a[i];
+        }
+        System.out.println(p);
     }
 }
