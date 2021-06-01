@@ -4,7 +4,18 @@
 
 public class Main {
     public static void main(String[] args) {
-        //напишите тут ваш код
+        compcheck(31);
+        compcheck(8);
+    }
 
+    public static void compcheck(int a) {
+        for (int i = 2; i < a; ++i) {
+            if (a % i == 0) {
+                System.out.println("true");
+                return;
+            }
+        }
+        System.out.println("false");
+        return;
     }
 }
