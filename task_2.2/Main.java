@@ -4,9 +4,16 @@
 3 6 9 12 ...
 4 8 12 16 ...
 ... */
+
 public class Main {
     public static void main(String[] args) {
-        //напишите тут ваш код
-
+        int i, j;
+        for (i = 1; i <= 10; ++i) {
+            for (j = 1; j <= 10; ++j) {
+               System.out.print(i * j);
+               System.out.print(" ");
+            }
+            System.out.println("");
+        }
     }
 }
