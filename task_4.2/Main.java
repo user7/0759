@@ -18,7 +18,25 @@ public class Main {
     }
 }
 
-public class Dog {
-    //напишите тут ваш код
+//ошибка в задании, класс объявлен private
+class Dog {
+    private String name;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int a) {
+        age = a;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String n) {
+        name = n;
+    }
 }
 
