@@ -8,9 +8,28 @@
 3
 */
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //напишите тут ваш код
-
+        Scanner s = new Scanner(System.in);
+        int a[] = new int [10];
+        for (int i = 0; i < a.length; i++) {
+            a[i] = s.nextInt();
+        }
+        int max = 0;
+        int start = 0;
+        for (int i = 0; i < a.length; i++) {
+            int len;
+            if (a[i] == a[start]) {
+                len = i - start + 1;
+            } else {
+                len = 1;
+                start = i;
+            }
+            if (len > max)
+                max = len;
+        }
+        System.out.println(max);
     }
 }
