@@ -28,6 +28,13 @@ class Cat {
     }
 
     public boolean fight(Cat anotherCat) {
-        //напишите тут ваш код
+        return this.scoreVersus(anotherCat) > anotherCat.scoreVersus(this);
+    }
+
+    private int scoreVersus(Cat anotherCat) {
+        return
+            (this.age > anotherCat.age ? 1 : 0) +
+            (this.weight > anotherCat.weight ? 1 : 0) +
+            (this.strength > anotherCat.strength ? 1 : 0);
     }
 }
