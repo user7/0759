@@ -10,7 +10,7 @@
 
 public class Main {
     public static int min(int a, int b, int c) {
-        //напишите тут ваш код
+        return a < b ? (a < c ? a : c) : (b < c ? b : c);
     }
 
     public static void main(String[] args) {
