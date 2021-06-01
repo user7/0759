@@ -6,7 +6,9 @@
 
 public class Main {
     public static void main(String[] args) {
-        //напишите тут ваш код
+    }
 
+    public static boolean sumAbove10(int a, int b) {
+        return a + b > 10;
     }
 }
