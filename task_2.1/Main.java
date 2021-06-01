@@ -13,7 +13,21 @@
 
 public class Main {
     public static void main(String[] args) {
-        //напишите тут ваш код
+        combos(new String[]{"Мама", "Мыла", "Раму"}, "");
+    }
 
+    public static void combos(String[] words, String accum) {
+        if (words.length == 0)
+            System.out.println(accum);
+        for (int i = 0; i < words.length; ++i) {
+            String a[] = new String[words.length - 1];
+            for (int j = 0; j < words.length; ++j) {
+                if (j < i)
+                    a[j] = words[j];
+                else if (j > i)
+                    a[j - 1] = words[j];
+            }
+            combos(a, accum + words[i]);
+        }
     }
 }
