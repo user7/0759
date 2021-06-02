@@ -13,11 +13,12 @@
 Абрамовичи */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 
-/* 
+/*
 Модернизация ПО
 */
 
@@ -25,22 +26,21 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<String> list = new ArrayList<>();
+        HashMap<String, String> list = new HashMap<String, String>();
         while (true) {
-            String family = scanner.nextLine();
-            if (family.isEmpty()) {
+            String city = scanner.next();
+            String family = scanner.next();
+            // знак ? вместо family означает конец ввода, например на входе:
+            //   лондон ивановы москва петровы москва ?
+            // тогда на выходе:
+            //   петровы
+            if (family.equals("?")) {
+                family = list.get(city);
+                if (family != null)
+                    System.out.println(family);
                 break;
             }
-
-            list.add(family);
-        }
-
-        // Read the house number
-        int houseNumber = scanner.nextInt();
-
-        if (0 <= houseNumber && houseNumber < list.size()) {
-            String familyName = list.get(houseNumber);
-            System.out.println(familyName);
+            list.put(city, family);
         }
     }
 }
