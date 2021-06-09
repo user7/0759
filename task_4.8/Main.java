@@ -31,7 +31,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String command;
         while (true){
-            System.out.println("Введите команду");
+            System.out.println("Введите команду (help для помощи):");
             command = scanner.nextLine();
             if(command.equals("getFreeRooms")){
                 hotel.getFreeRooms();
@@ -39,6 +39,30 @@ public class Main {
                 System.out.print("Введите номер комнаты для бронирования: ");
                 byte roomNumber = (byte) scanner.nextInt();
                 hotel.reserveRoom(roomNumber);
+            }else if (command.equals("vacateRoom")){
+                System.out.print("Введите номер комнаты, которую надо освободить: ");
+                hotel.vacateRoom((byte) scanner.nextInt());
+            }else if (command.equals("getRoomInfo")){
+                System.out.print("Введите номер комнаты для отображения: ");
+                hotel.getRoomInfo((byte) scanner.nextInt());
+            }else if (command.equals("getRoomsWifi")){
+                hotel.getRoomsWifi();
+            }else if (command.equals("getRoomsWc")){
+                hotel.getRoomsWc();
+            }else if (command.equals("getRoomsQuantity")){
+                System.out.println("Введите количество мест: ");
+                hotel.getRoomsQuantity((byte) scanner.nextInt());
+            }else if (command.equals("help")){
+                System.out.println("Команды:");
+                System.out.println(" getFreeRooms");
+                System.out.println(" reserveRoom");
+                System.out.println(" vacateRoom");
+                System.out.println(" getRoomInfo");
+                System.out.println(" getRoomsWifi");
+                System.out.println(" getRoomsWc");
+                System.out.println(" getRoomsQuantity");
+                System.out.println(" help");
+                System.out.println(" exit");
             }else if (command.equals("exit")){
                 break;
             }
