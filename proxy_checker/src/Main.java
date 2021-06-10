@@ -25,7 +25,7 @@ public class Main {
             while (scan.hasNextLine()) {
                 String line = scan.nextLine();
                 try {
-                    String tmp[] = line.split(":");
+                    String tmp[] = line.split("([ \t]+|:)");
                     String host = tmp[0];
                     int port = 3128;
                     if (tmp.length > 1)
