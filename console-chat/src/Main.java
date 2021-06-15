@@ -14,8 +14,8 @@ public class Main {
                 c.run();
             } else {
                 System.out.println("Некорректные параметры командной строки,");
-                System.out.println("для запуска сервера: chat -s address:port");
-                System.out.println("для запуска клиента: chat -c address:port");
+                System.out.println("для запуска сервера: chat -s адрес:порт");
+                System.out.println("для запуска клиента: chat -c адрес:порт");
             }
         } catch (Exception e) {
             System.out.println(e);
