@@ -8,7 +8,6 @@ import java.util.Set;
 
 import static java.lang.System.out;
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Main {
     public static void main(String[] args) {
@@ -43,7 +42,7 @@ class ConnectedClient implements Runnable {
     private final Server srv;
     private final Socket sock;
     private String name;
-    private BufferedWriter sockOut;
+    private DataOutputStream sockOut;
 
     public ConnectedClient(Server srv, Socket sock) {
         this.srv = srv;
@@ -60,8 +59,7 @@ class ConnectedClient implements Runnable {
 
     public void send(String msg) {
         try {
-            sockOut.write(msg + "\n");
-            sockOut.flush();
+            sockOut.writeUTF(msg);
         } catch (Exception e) {
             out.println("не могу послать сообщение " + getNameSafe() + ": " + e);
             e.printStackTrace();
@@ -71,13 +69,11 @@ class ConnectedClient implements Runnable {
     @Override
     public void run() {
         try {
-            sockOut = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), UTF_8));
+            sockOut = new DataOutputStream(sock.getOutputStream());
             send("!Введите имя:");
-            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream(), UTF_8));
+            DataInputStream in = new DataInputStream(sock.getInputStream());
             while (!sock.isInputShutdown()) {
-                String line = in.readLine();
-                if (line == null)
-                    break;
+                String line = in.readUTF();
                 if (name == null) {
                     name = line;
                     out.println("принято имя клиента: " + getNameSafe());
@@ -175,14 +171,10 @@ class Client {
             @Override
             public void run() {
                 try {
-                    BufferedReader r = new BufferedReader(
-                            new InputStreamReader(sock.getInputStream(), UTF_8));
+                    DataInputStream r = new DataInputStream(sock.getInputStream());
                     String color;
                     while (!sock.isInputShutdown()) {
-                        String line = r.readLine();
-                        if (line == null) {
-                            break;
-                        }
+                        String line = r.readUTF();
                         if (line.startsWith("!"))
                             color = ANSI_RED;
                         else
@@ -195,15 +187,12 @@ class Client {
                 }
             }
         }).start(); // принимающий тред
-        BufferedWriter w = new BufferedWriter(
-                new OutputStreamWriter(sock.getOutputStream(), UTF_8));
+        DataOutputStream outputStream = new DataOutputStream(sock.getOutputStream());
         Scanner s = new Scanner(System.in);
         String name = null;
         while (!sock.isOutputShutdown()) {
             String line = s.nextLine();
-            w.write(line);
-            w.newLine();
-            w.flush();
+            outputStream.writeUTF(line);
             if (name != null)
                 System.out.println(ANSI_GREEN + "[" + name + "] " + line + ANSI_RESET);
             else
