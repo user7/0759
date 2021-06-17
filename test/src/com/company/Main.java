@@ -49,5 +49,7 @@ public class Main {
                 System.out.print("-");
         }
         System.out.println();
+        String splits[] = t.split("(?<=.)");
+        System.out.println("split & dashed: " + String.join("-", splits));
     }
 }
