@@ -1,0 +1,19 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="gui.Controller"
+      stylesheets="/gui/sample.css"
+      VBox.vgrow="ALWAYS">
+    <ScrollPane fx:id="scrollPane" styleClass="root" fitToWidth="true" prefHeight="99999">
+        <TextFlow fx:id="textFlow"/>
+    </ScrollPane>
+    <TextField fx:id="textField" onKeyPressed="#onTextFieldEnter"/>
+</VBox>
