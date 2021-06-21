@@ -1,5 +1,6 @@
 package gui;
 
+import console.Message;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -9,6 +10,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.scene.text.TextFlow;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.function.Consumer;
 import console.Connection;
@@ -32,12 +34,24 @@ public class Controller {
 
     public void connect(String addr) {
         connection.close();
-        Consumer<String> callback = msg -> Platform.runLater(() -> {
-            if (msg == null) {
+        Consumer<console.Message> callback = msg -> Platform.runLater(() -> {
+            if (msg.isDisconnect()) {
                 messageGui(MessageType.SYSTEM, "Сервер отключился");
                 name = null;
-            } else
-                messageGui(msg.startsWith("[") ? MessageType.INCOMING : MessageType.SYSTEM, msg);
+            } else {
+                if (msg.hasMessage()) {
+                    MessageType type = MessageType.SYSTEM;
+                    String text = msg.getMessage();
+                    if (msg.hasSender()) {
+                        type = MessageType.INCOMING;
+                        text = "[" + msg.getSender() + "] " + text;
+                    }
+                    messageGui(type, text);
+                }
+                if (msg.hasUsers()) {
+                    messageGui(MessageType.SYSTEM, "Сейчас в чате: " + String.join(", ", msg.getUsers()));
+                }
+            }
         });
         try {
             connection = new Connection(addr, callback);
@@ -105,12 +119,17 @@ public class Controller {
             return;
         }
 
+        Message msg = new Message();
         // Первый ответ серверу это наше имя
-        if (name == null)
-            name = line;
-        else
+        if (name == null) {
+            name = line.trim();
+            msg.setSender(name);
+        }
+        else {
             messageGui(MessageType.OUTGOING, line);
-        connection.send(line);
+            msg.setMessage(line);
+        }
+        connection.send(msg);
     }
 
     // TODO destructor

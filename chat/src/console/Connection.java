@@ -1,16 +1,16 @@
 package console;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.function.Consumer;
+
 
 public class Connection {
     private Socket sock;
-    private DataOutputStream sockOut;
+    private ObjectOutputStream sockOut;
     private Thread readerThread;
-    private Consumer<String> callback;
+    private Consumer<Message> callback;
 
     public boolean isClosed() {
         return sock == null || sock.isClosed();
@@ -31,40 +31,41 @@ public class Connection {
     public Connection() {
     } // создать dummy подключение
 
-    public Connection(String addr, Consumer<String> callback) throws IOException {
+    public Connection(String addr, Consumer<Message> callback) throws IOException {
         this.sock = new Socket(addr.isEmpty() ? "127.0.0.1" : addr, 8188);
         this.callback = callback;
         init();
     }
 
-    public Connection(Socket socket, Consumer<String> callback) throws IOException {
+    public Connection(Socket socket, Consumer<Message> callback) throws IOException {
         this.sock = socket;
         this.callback = callback;
         init();
     }
 
     public void init() throws IOException {
-        sockOut = new DataOutputStream(sock.getOutputStream());
+        sockOut = new ObjectOutputStream(sock.getOutputStream());
         readerThread = new Thread(() -> {
             try {
-                DataInputStream r = new DataInputStream(sock.getInputStream());
+                ObjectInputStream r = new ObjectInputStream(sock.getInputStream());
                 while (true) {
-                    callback.accept(r.readUTF());
+                    Message m = (Message) r.readObject();
+                    callback.accept(m);
                 }
             } catch (Exception e) {
                 System.out.println("Ошибка при получении: " + e);
             }
-            callback.accept(null); // сигнал отключения
+            callback.accept(new Message()); // сигнал отключения
         });
         readerThread.start();
     }
 
-    public void send(String message) {
+    public void send(Message message) {
         try {
-            sockOut.writeUTF(message);
+            sockOut.writeObject(message);
         } catch (IOException e) {
             System.out.println("Ошибка при отправке: " + e);
-            callback.accept(null); // сигнал отключения
+            callback.accept(new Message()); // сигнал отключения
         }
     }
 }

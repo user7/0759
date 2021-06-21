@@ -21,12 +21,14 @@ public class Client {
             connection = new Connection(addr, msg -> handleMessage(msg));
             Scanner s = new Scanner(System.in);
             while (s.hasNext()) {
-                String msg = s.nextLine();
+                String input = s.nextLine();
+                Message msg = new Message();
                 if (name == null) {
-                    msg = msg.trim();
-                    name = msg;
+                    name = input.trim();
+                    msg.setSender(name);
                 } else {
-                    consolePrint(ANSI_GREEN, "[" + name + "] " + msg);
+                    consolePrint(ANSI_GREEN, "[" + name + "] " + input);
+                    msg.setMessage(input);
                 }
                 connection.send(msg);
             }
@@ -36,12 +38,19 @@ public class Client {
             connection.close();
     }
 
-    private void handleMessage(String msg) {
+    private void handleMessage(Message msg) {
         if (msg == null) {
             consolePrint(ANSI_RED, "Соединение разорвано");
             System.exit(0);
         } else {
-            consolePrint(msg.startsWith("[") ? ANSI_YELLOW : ANSI_RED, msg);
+            if (msg.hasMessage()) {
+                // если нет сообщения
+                consolePrint(msg.hasSender() ? ANSI_YELLOW : ANSI_RED, msg.getMessage());
+            }
+            if (msg.hasUsers()) {
+                // обновлен список пользователей
+                consolePrint(ANSI_RED, "Сейчас на сервере: " + String.join(", ", msg.getUsers()));
+            }
         }
     }
 

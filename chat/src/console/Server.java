@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,41 +26,38 @@ public class Server {
             Socket sock = listener.accept();
             User user = new User(sock, this);
             clients.add(user);
-            user.getConnection().send("Введите имя:");
+            user.getConnection().send(new Message("Введите имя:"));
         }
     }
 
-    public void handleMessage(User sender, String msg) {
-        if (msg == null) {
-            if (sender.getName() != null)
-                broadcast(sender, sender.getName() + " покинул чат");
+    public void handleMessage(User sender, Message msg) {
+        if (msg.isDisconnect()) {
             clients.remove(sender);
+            if (sender.getName() != null) {
+                broadcast(sender, new Message(sender.getName() + " покинул чат", "", listUsers()));
+            }
         } else if (sender.getName() == null) {
-            sender.setName(msg.trim());
-            broadcast(sender, sender.getName() + " вошёл в чат");
-            sender.getConnection().send("Добро пожаловать, сейчас в чате: " + listUsers());
+            sender.setName(msg.getSender());
+            broadcast(sender, new Message(sender.getName() + " вошёл в чат", "", listUsers()));
+            sender.getConnection().send(new Message("Добро пожаловать, " + sender.getName() + "!", "", listUsers()));
         } else {
-            broadcast(sender, "[" + sender.getName() + "] " + msg);
+            broadcast(sender, new Message(msg.getMessage(), sender.getName()));
         }
     }
 
-    public void broadcast(User sender, String msg) {
+    public void broadcast(User sender, Message msg) {
         System.out.println(sender.getName() + " >> " + msg);
         for (User c : clients)
             if (c != sender)
                 c.getConnection().send(msg);
     }
 
-    public String listUsers() {
-        StringBuilder str = new StringBuilder();
+    public ArrayList<String> listUsers() {
+        ArrayList<String> users = new ArrayList<>();
         for (User c : clients) {
-            String name = c.getName();
-            if (name != null) {
-                if (str.length() != 0)
-                    str.append(", ");
-                str.append(name);
-            }
+            if (c.getName() != null)
+                users.add(c.getName());
         }
-        return str.toString();
+        return users;
     }
 }

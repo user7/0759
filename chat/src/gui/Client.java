@@ -15,9 +15,9 @@ public class Client extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
-        Parent root = (Parent) loader.load();
+        Parent root = loader.load();
         primaryStage.setTitle("Чат");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 500, 700));
         primaryStage.show();
         Controller controller = loader.getController();
         primaryStage.setOnHidden(e -> controller.shutdown());
