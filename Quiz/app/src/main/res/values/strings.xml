@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Quiz</string>
+    <string name="ybtn">Да</string>
+    <string name="nbtn">Нет</string>
+    <string name="correct">Правильно</string>
+    <string name="incorrect">Неправильно!</string>
+
+    <string name="question">Земля плоская?</string>
+    <string name="question1">Вода мокрая?</string>
+    <string name="question2">Трава зелёная?</string>
+    <string name="question3">Крокодилы летают?</string>
+    <string name="question4">Камни вкусные?</string>
+
+</resources>
