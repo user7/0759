@@ -65,4 +65,9 @@ public class Message implements Serializable {
     public boolean isDisconnect() {
         return !hasMessage() && !hasUsers() && !hasSender();
     }
+
+    @Override
+    public String toString() {
+        return "<" + sender + ":" + message + "//" + String.join(",", users) + ">";
+    }
 }
