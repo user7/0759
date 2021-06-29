@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class AnswerActivity extends AppCompatActivity {
@@ -13,6 +14,7 @@ public class AnswerActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("===", "answerActivity onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
 

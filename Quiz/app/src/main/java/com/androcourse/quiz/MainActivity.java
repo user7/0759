@@ -13,7 +13,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Button yesButton;
     Button noButton;
-    Button showAnswer;
     Toast lastToast;
     TextView questionTextView;
     int currentQuestion = 0;
@@ -33,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     void
     respond(boolean givenYes) {
         Question q = questions[currentQuestion];
-        int message = R.string.messageIncorrect;
         int answer = givenYes ? R.string.answerYes : R.string.answerNo;
+        int message = R.string.messageIncorrect;
         int answerGoodness = R.string.answerIncorrect;
         if (q.isAnswer() == givenYes) {
             answersGood++;
@@ -64,18 +63,31 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("answers", answers);
             intent.putExtra("answersGood", answersGood);
             startActivity(intent);
+            Log.d("===", "after startActivity");
+            answersGood = 0;
+            currentQuestion = 0;
         }
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateOnscreenQuestion();
+        Log.d("===", "onResume cur=" + currentQuestion);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("===", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState != null) {
             currentQuestion = savedInstanceState.getInt("qn");
+            answers = (String[]) savedInstanceState.getSerializable("ans");
+        } else {
+            currentQuestion = 0;
+            answers = new String[questions.length];
         }
-
-        answers = new String[questions.length];
 
         questionTextView = findViewById(R.id.questionTextView);
         updateOnscreenQuestion();
@@ -99,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         Log.d("===", "onDestroy");
+        super.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
         Log.d("===", "onSaveInstanceState saving " + currentQuestion);
+        super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("qn", currentQuestion);
     }
 
