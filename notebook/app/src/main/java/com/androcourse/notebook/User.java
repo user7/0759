@@ -3,7 +3,7 @@ package com.androcourse.notebook;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private String data;
     private String userName;
     private String userLastName;

@@ -1,66 +1,96 @@
 package com.androcourse.notebook;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    Users users = new Users();
-    UserAdapter userAdapter = new UserAdapter(users);
+    ArrayList<User> userList;
+    Button addUserBtn;
+    UserAdapter userAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("===", "main onCreate");
         setContentView(R.layout.activity_main);
 
         // задаём лейаут для RecyclerView
-        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-        // создаем фейковых пользователей
-        String[] names = new String[] {"Анита", "Борис", "Виктория", "Григорий", "Диана", "Елена", "Жерар"};
-        String[] lastNames = new String[] {"Смит", "Джонсон", "Штейн", "Круг", "Боня"};
-        for (int i = 0; i < names.length * lastNames.length; ++i) {
-            User user = new User();
-            user.setUserName(names[i % names.length]);
-            user.setUserLastName(lastNames[i % lastNames.length]);
-            users.add(user);
-        }
+        addUserBtn = findViewById(R.id.addButton);
+        addUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
+                intent.putExtra("newUser", true);
+                startActivity(intent);
+            }
+        });
+    }
 
-        // задаем адаптер для RecyclerView
+    private void recyclerViewInit() {
+        Users users = new Users(MainActivity.this);
+        userList = users.getUserList();
+        userAdapter = new UserAdapter(userList);
         recyclerView.setAdapter(userAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("===", "main onResume");
+        recyclerViewInit();
     }
 
     // класс который связывает элемент типа View списка с элементом данных из Users
     class UserHolder extends RecyclerView.ViewHolder {
         TextView itemTextView;
+        User user;
 
         public UserHolder(ViewGroup viewGroup) {
             super(LayoutInflater.from(MainActivity.this).inflate(R.layout.single_item, viewGroup, false));
             // itemView унаследован от RecyclerView.ViewHolder
             // при создании запомнили свой View
             itemTextView = itemView.findViewById(R.id.itemTextView);
+            itemTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    User user = UserHolder.this.user;
+                    Log.d("===", "user view click " + user.getUserName());
+                    Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
+                    intent.putExtra("newUser", false);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }
+            });
         }
 
         public void bind(User user) {
             // связывание, отображаем данные из объекта User во View
             itemTextView.setText(user.getUserName() + " " + user.getUserLastName());
+            this.user = user;
         }
     }
 
     // адаптер предоставляет отдельные объекты из users для отображения в RecyclerView
     class UserAdapter extends RecyclerView.Adapter<UserHolder> {
-        Users users;
+        ArrayList<User> users;
 
-        public UserAdapter(Users users) {
+        public UserAdapter(ArrayList<User> users) {
             this.users = users;
         }
 
