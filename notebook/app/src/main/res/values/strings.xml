@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">notebook</string>
+    <string name="app_name">Записная Книжка</string>
+    <string name="button_new_record">добавить запись</string>
+    <string name="button_cancel">отмена</string>
+    <string name="button_commit">сохранить</string>
+    <string name="button_delete">удалить</string>
+    <string name="hint_phone">Телефон</string>
+    <string name="hint_name">Имя</string>
+    <string name="hint_last_name">Фамилия</string>
+    <string name="edit_caption">редактировние записи</string>
 </resources>

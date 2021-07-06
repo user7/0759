@@ -31,7 +31,8 @@ class Users {
     }
 
     public void updateUser(User user) {
-        database.update(UserDBSchema.UserTable.NAME,
+        database.update(
+                UserDBSchema.NAME,
                 userContentValues(user),
                 UserDBSchema.Cols.UUID + " = ?",
                 new String[]{user.getUuid().toString()});
@@ -39,22 +40,18 @@ class Users {
 
     public void deleteUser(User user) {
         database.delete(
-                UserDBSchema.UserTable.NAME,
+                UserDBSchema.NAME,
                 UserDBSchema.Cols.UUID + " = ?",
                 new String[]{user.getUuid().toString()});
     }
 
     public void addUser(User user) {
         ContentValues values = userContentValues(user);
-        try {
-            database.insertOrThrow(UserDBSchema.UserTable.NAME, null, values);
-        } catch (Exception e) {
-            Log.d("===", "db error " + e + " values=" + values);
-        }
+        database.insert(UserDBSchema.NAME, null, values);
     }
 
     private UserCursorWrapper queryUsers() {
-        Cursor cursor = database.query(UserDBSchema.UserTable.NAME, null, null, null, null, null, null);
+        Cursor cursor = database.query(UserDBSchema.NAME, null, null, null, null, null, null);
         return new UserCursorWrapper(cursor);
     }
 

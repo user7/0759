@@ -14,7 +14,7 @@ public class UserCursorWrapper extends CursorWrapper {
 
     public User getUser() {
         String uuidString = getString(getColumnIndex(UserDBSchema.Cols.UUID));
-        String userName  = getString(getColumnIndex(UserDBSchema.Cols.USERNAME));
+        String userName = getString(getColumnIndex(UserDBSchema.Cols.USERNAME));
         String userLastName = getString(getColumnIndex(UserDBSchema.Cols.USERLASTNAME));
         String phone = getString(getColumnIndex(UserDBSchema.Cols.PHONE));
         User user = new User(UUID.fromString(uuidString));

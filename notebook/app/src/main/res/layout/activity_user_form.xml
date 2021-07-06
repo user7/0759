@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Редактирование записи"
+        android:text="@string/edit_caption"
         />
 
     <EditText
@@ -21,7 +21,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        android:hint="Имя"
+        android:hint="@string/hint_name"
         />
 
     <EditText
@@ -31,7 +31,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        android:hint="Фамилия"
+        android:hint="@string/hint_last_name"
         />
 
     <EditText
@@ -40,25 +40,25 @@
         android:layout_height="wrap_content"
         android:ems="12"
         android:inputType="phone"
-        android:hint="Телефон"
+        android:hint="@string/hint_phone"
         />
 
     <Button
         android:id="@+id/buttonCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Отменить" />
+        android:text="@string/button_cancel" />
 
     <Button
         android:id="@+id/buttonSaveEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Сохранить" />
+        android:text="@string/button_commit" />
 
     <Button
         android:id="@+id/buttonDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Удалить" />
+        android:text="@string/button_delete" />
 
 </LinearLayout>

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("===", "main onCreate");
         setContentView(R.layout.activity_main);
 
         // задаём лейаут для RecyclerView
@@ -32,13 +30,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         addUserBtn = findViewById(R.id.addButton);
-        addUserBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
-                intent.putExtra("newUser", true);
-                startActivity(intent);
-            }
+        addUserBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
+            intent.putExtra("newUser", true);
+            startActivity(intent);
         });
     }
 
@@ -47,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
         userList = users.getUserList();
         userAdapter = new UserAdapter(userList);
         recyclerView.setAdapter(userAdapter);
+        recyclerView.getRecycledViewPool().setMaxRecycledViews(1, 18);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("===", "main onResume");
         recyclerViewInit();
     }
 
@@ -66,22 +61,18 @@ public class MainActivity extends AppCompatActivity {
             // itemView унаследован от RecyclerView.ViewHolder
             // при создании запомнили свой View
             itemTextView = itemView.findViewById(R.id.itemTextView);
-            itemTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    User user = UserHolder.this.user;
-                    Log.d("===", "user view click " + user.getUserName());
-                    Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
-                    intent.putExtra("newUser", false);
-                    intent.putExtra("user", user);
-                    startActivity(intent);
-                }
+            itemTextView.setOnClickListener(v -> {
+                User user = UserHolder.this.user;
+                Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
+                intent.putExtra("newUser", false);
+                intent.putExtra("user", user);
+                startActivity(intent);
             });
         }
 
         public void bind(User user) {
             // связывание, отображаем данные из объекта User во View
-            itemTextView.setText(user.getUserName() + " " + user.getUserLastName());
+            itemTextView.setText(user.getUserFullName());
             this.user = user;
         }
     }

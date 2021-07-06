@@ -18,7 +18,7 @@ public class UserBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + UserDBSchema.UserTable.NAME + " (" +
+        db.execSQL("CREATE TABLE " + UserDBSchema.NAME + " (" +
                 UserDBSchema.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 UserDBSchema.Cols.UUID + " TEXT, " +
                 UserDBSchema.Cols.USERNAME + " TEXT," +
