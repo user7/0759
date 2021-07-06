@@ -20,12 +20,14 @@ public class UserFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_form);
 
         Bundle extras = getIntent().getExtras();
-        newUser = extras.getBoolean("newUser");
-        if (newUser) {
-            user = new User();
-        } else {
+        user = null;
+        if (extras != null)
             user = (User) extras.getSerializable("user");
-        }
+        if (user == null) {
+            newUser = true;
+            user = new User();
+        } else
+            newUser = false;
 
         editTextName = findViewById(R.id.editUserName);
         editTextName.setText(user.getUserName());

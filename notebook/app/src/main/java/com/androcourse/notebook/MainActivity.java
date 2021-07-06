@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         addUserBtn = findViewById(R.id.addButton);
         addUserBtn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
-            intent.putExtra("newUser", true);
             startActivity(intent);
         });
     }
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             itemTextView.setOnClickListener(v -> {
                 User user = UserHolder.this.user;
                 Intent intent = new Intent(MainActivity.this, UserFormActivity.class);
-                intent.putExtra("newUser", false);
                 intent.putExtra("user", user);
                 startActivity(intent);
             });

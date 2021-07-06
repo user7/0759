@@ -37,11 +37,6 @@ public class User implements Serializable {
         return uuid;
     }
 
-    /*
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }*/
-
     public String getPhone() {
         return phone;
     }
