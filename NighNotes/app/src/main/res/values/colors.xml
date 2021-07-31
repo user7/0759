@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFbbbbbb</color>
+    <color name="purple_500">#FF666666</color>
+    <color name="purple_700">#FF333333</color>
+    <color name="color_button_norm">#FF000000</color>
+    <color name="color_button_smth">#FF00FF00</color>
+    <color name="color_button_label">#FFFFFFFF</color>
+    <color name="color_ultramarine">#FF4166F5</color>
+</resources>
