@@ -1,0 +1,2 @@
+rootProject.name = "Nigh Notes"
+include ':app'
