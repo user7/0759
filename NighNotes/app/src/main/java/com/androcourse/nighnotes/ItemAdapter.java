@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
+
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     static String[] fakeItems = new String[] {
             "Hola",
@@ -23,7 +25,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             "item6",
             "item5",
             "item4",
-            "the end",
+            "the end"
     };
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -31,8 +33,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         public ItemViewHolder(View view) {
             super(view);
-            textView = (TextView) view.findViewById(R.id.item_view);
-            Log.d("==", "constructor ItemViewHolder textView=" + textView);
+            textView = (TextView) view.findViewById(R.id.itemNewTextView);
+            Log.d("==", "constructor ItemViewHolder=" + System.identityHashCode(this) + " textView=" + System.identityHashCode(textView));
         }
 
         public void setRecord(String record) {
@@ -44,7 +46,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_itemview, viewGroup, false);
+                .inflate(R.layout.item_view, viewGroup, false);
         return new ItemViewHolder(view);
     }
 
@@ -55,6 +57,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public int getItemCount() {
+        Log.d("==", "count=" + fakeItems.length);
         return fakeItems.length;
     }
 }
