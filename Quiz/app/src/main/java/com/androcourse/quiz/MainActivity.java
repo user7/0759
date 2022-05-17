@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void updateOnscreenQuestion() {
-        assert (currentQuestion < questions.length);
+        assert(currentQuestion < questions.length);
         questionTextView.setText(questions[currentQuestion].getQuestion());
     }
 }
